@@ -14,6 +14,8 @@ if [ ! -f "$DB_FILE" ]; then
 else
   echo "SQLite database file already exists at $DB_FILE"
 fi
+
+sudo chown www-data:www-data $DB_FILE
 php artisan migrate --force
 
 
