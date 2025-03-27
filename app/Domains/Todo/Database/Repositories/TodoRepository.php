@@ -28,6 +28,12 @@ class TodoRepository extends BaseRepository
             ->filter($indexDTO)
             ->get();
     }
+    public function show(string $id): Todo
+    {
+        return $this
+            ->newQuery()
+            ->findOrFail($id);
+    }
 
     public function create(InputTodoStoreDTO $storeDTO): Todo
     {

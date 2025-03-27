@@ -23,6 +23,12 @@ readonly class TodoService
             $this->repository->index($indexDTO)
         );
     }
+    public function show(string $id): array
+    {
+        return $this->repository->toResource(
+            $this->repository->show($id)
+        );
+    }
 
     public function store(InputTodoStoreDTO $storeDTO): array
     {
@@ -30,18 +36,22 @@ readonly class TodoService
             $this->repository->create($storeDTO)
         );
     }
-    public function update(string $id,InputTodoUpdateDTO $updateDTO): array
+
+    public function update(string $id, InputTodoUpdateDTO $updateDTO): array
     {
         return $this->repository->toResource(
-            $this->repository->update($id,$updateDTO)
+            $this->repository->update($id, $updateDTO)
         );
     }
 
     /**
      * @throws NotDeletableException
      */
-    public function destroy(string $id): void
+    public function destroy(string $id): array
     {
         $this->repository->destroy($id);
+        return [
+            'id' => $id
+        ];
     }
 }

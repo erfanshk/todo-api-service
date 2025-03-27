@@ -12,18 +12,34 @@ class TodoApiTest extends TestCase
 {
     use RefreshDatabase;
 
-//    public function test_index_route_returns_models(): void
-//    {
-//
-//        Todo::factory()->pending()->count(10)->create();
-//
-//        $response = $this->get(route('todos.index'));
-//
-//        $response->assertStatus(200)
-//            ->assertJsonCount(10, 'data');
-//
-//        $this->assertDatabaseCount('todos', 10);
-//    }
+    public function test_index_route_returns_models(): void
+    {
+
+        Todo::factory()->pending()->count(10)->create();
+
+        $response = $this->get(route('todos.index'));
+
+        $response->assertStatus(200)
+            ->assertJsonCount(10, 'data');
+
+        $this->assertDatabaseCount('todos', 10);
+    }
+    public function test_show_shows_model(): void
+    {
+
+        $todo = Todo::factory()->pending()->create();
+
+        $response = $this->get(route('todos.show',$todo->getKey()));
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'id' => $todo->getKey()
+                ]
+            ]);
+
+
+    }
     public function test_index_route_returns_filtered_models(): void
     {
 
@@ -134,7 +150,7 @@ class TodoApiTest extends TestCase
         $response = $this->delete(route('todos.destroy', $todo->getKey()));
 
         $response
-            ->assertStatus(ResponseAlias::HTTP_NO_CONTENT);
+            ->assertStatus(ResponseAlias::HTTP_OK);
 
         $this->assertSoftDeleted('todos', ['id' => $todo->getKey()]);
     }

@@ -36,7 +36,7 @@ Serve the application <br /><br />
 }
 ```
 ### 2. Create a Todo
-**POST** `/api/v1/todos/store`  
+**POST** `/api/v1/todos`  
 *Store a new Todo*
 
 **Body (JSON)**:
@@ -58,7 +58,7 @@ Serve the application <br /><br />
 }
 ```
 ### 3. Update a Todo
-**PATCH** `/api/v1/todos/update/{id}`  
+**PATCH** `/api/v1/todos/{id}`  
 *Update an existing Todo*
 
 **URL Params**:
@@ -84,7 +84,7 @@ Serve the application <br /><br />
 }
 ```
 ### 4. Delete a Todo
-**DELETE** `/api/v1/todos/update/{id}`  
+**DELETE** `/api/v1/todos/{id}`  
 *Delete an existing Todo*
 
 **URL Params**:

@@ -8,10 +8,10 @@ use App\Domains\Todo\Enums\TodoStatusEnum;
 readonly class InputTodoIndexDTO
 {
     public function __construct(
-        private ?string $query = null,
-        private ?int    $status = 0,
-        private ?int    $offset = 0,
-        private ?int    $limit = 10
+        private ?string  $query = null,
+        private int|null $status = null,
+        private ?int     $offset = 0,
+        private ?int     $limit = 10
     )
     {
     }
@@ -24,7 +24,7 @@ readonly class InputTodoIndexDTO
 
     public function getStatus(): TodoStatusEnum|null
     {
-        return TodoStatusEnum::from($this->status);
+        return $this->status === null ? null : TodoStatusEnum::from($this->status);
     }
 
     public function getOffset(): int|null

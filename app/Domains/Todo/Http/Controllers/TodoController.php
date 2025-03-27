@@ -11,6 +11,7 @@ use App\Domains\Todo\Http\Requests\StoreRequest;
 use App\Domains\Todo\Http\Requests\UpdateRequest;
 use App\Domains\Todo\Services\TodoService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class TodoController extends BaseController
@@ -33,6 +34,19 @@ class TodoController extends BaseController
             ->setData($result['result'])
             ->respond();
     }
+    public function show(Request $request,string $id): JsonResponse
+    {
+        $result = $this->tryCatch(fn() => $this->service->show($id));
+
+
+        if ($result['status'] === false) {
+            return $this->responseException($result['exception']);
+        }
+
+        return $this
+            ->setData($result['result'])
+            ->respond();
+    }
 
     public function store(StoreRequest $request): JsonResponse
     {
@@ -45,6 +59,7 @@ class TodoController extends BaseController
         return $this
             ->setData($result['result'])
             ->setStatus(ResponseAlias::HTTP_CREATED)
+            ->setMessage('Todo Created Successfully')
             ->respond();
     }
 
@@ -58,6 +73,7 @@ class TodoController extends BaseController
 
         return $this
             ->setData($result['result'])
+            ->setMessage('Todo Updated Successfully')
             ->respond();
     }
 
@@ -70,7 +86,8 @@ class TodoController extends BaseController
         }
 
         return $this
-            ->setStatus(ResponseAlias::HTTP_NO_CONTENT)
+            ->setStatus(ResponseAlias::HTTP_OK)
+            ->setData($result['result'])
             ->setMessage('Todo Deleted Successfully')
             ->respond();
     }
